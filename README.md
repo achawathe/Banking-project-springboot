@@ -7,12 +7,12 @@ ___
 - User Creation, Updating, Listing, and Deletion
 - Account Creation (opening), Updating, Listing, and Deletion (closing)
     - Account Linking to a Single User (Many to One Unidirectional)
-    - Logging of account opening, as well as closing in the Transactions database
+    - Logging of account opening (creation), as well as closing (deletion) in the Transactions database
 - Transaction Logging and Listing
     - Transactions containing the following data:
-        - Account To (Linked)
-        - Account From (Linked)
-        - User Linked to
+        - Account To (Linked, Many to One Unidirectional)
+        - Account From (Linked, Many to One Unidirectional)
+        - User Linked to (Many to One Unidirectional)
         - Amount
         - Transaction types (opening, closing, transfer, withdrawal, deposit)
     - Each time a transaction has been made, it is logged
@@ -26,8 +26,8 @@ ___
 - PostgresQL Integration (can be in-memory in needed)
 - Dependency Injection in Service and Repository Layers
 - Three Layer Design
-- User of DTOs and Mappers to Map DTOs to Entities
-- Robust Design and Extensibility
+- Use of Mappers to Map DTOs to Entities. Entities are used in the services, controllers and repositories.
+- Robust Design and Extensibility, and Maintainability.
 ---
 ## How to run:
 1. Go to https://www.azul.com/downloads/?package=jdk#zulu to download OpenJDK, and download JDK 17 for your system
@@ -54,7 +54,7 @@ ___
 
 ![img_2.png](img_2.png)
 
-7. In this tutorial, we will use the in-memory database since it doesn't need any set up for the end user.
+7. In this example, we will use the in-memory database since it doesn't need any set up for the end user.
 8. Open the Terminal in intelliJ
 
 ![img_14.png](img_14.png)
@@ -143,27 +143,25 @@ ___
 ---
 ## Assumptions and Requirements
 General Assumptions:
-- Listing a table that is empty will return ok since this is up to the front end to handle, and edge case safety is not important, since it can also be used for debugging.
+- Listing a table that is empty will return ok since this is up to the front end to handle.
 
 Users:
 - Each user has a unique name that is not empty.
-- Each user has a unique ID.
+- Each user has a unique ID, and systematically generated.
 
 Accounts:
-- Each account created will be unique.
+- Each account created will be unique (i.e. It will have a unique ID, systematically Generated UUID).
 - Each account MUST be linked to a user.
 - If a user exists with the same name for a given account in the user object, and no ID is given, the account will be linked to that user.
-- The balance of a given account must be positive, and not null.
+- The balance of a given account must not be negative, and cannot be null.
 - Upon the creation of an account, it is classified as an opening.
 - Upon deletion of account, it is classified as closing.
-- The above two items will get logged as a transaction with the appropriate enum to denote the action taking place.
-- A transaction will edit the balance of each account.
+- The above two items will get logged as a transaction with the appropriate enum to denote the action taking place in the transactions database.
 
 Transactions:
 - Each transaction made is unique
 - A transfer between accounts cannot contain the two of the same accounts.
 - There is deposit and withdrawal functionality.
-- If an account is deleted, it will be logged as a transaction (closing).
 - User account creation is not a transaction.
-- Withdrawals and transfers need to check for amount > 0.
+- Withdrawals and transfers need to check for amount <= account balance, and every transaction must be > 0.
 - Any transaction must have a valid account to and account from, as well as a valid amount.
