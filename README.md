@@ -161,6 +161,7 @@ Accounts:
 Transactions:
 - Each transaction made is unique
 - A transfer between accounts cannot contain the two of the same accounts.
+- A transfer between accounts must be between accounts with the same user.
 - There is deposit and withdrawal functionality.
 - User account creation is not a transaction.
 - Withdrawals and transfers need to check for amount <= account balance, and every transaction must be > 0.

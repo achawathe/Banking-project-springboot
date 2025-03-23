@@ -10,10 +10,7 @@ import com.achawathe.Banking.project.repositories.UserRepository;
 import com.achawathe.Banking.project.services.AccountService;
 import com.achawathe.Banking.project.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -122,6 +121,24 @@ public class AcccountControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.balance").value(accountDto.getBalance()));
     }
 
+
+    @Test
+    public void testThatCreateAccountSuccessfullyLogsTransactionInTransactionDatabase() throws Exception {
+        UserEntity userEntity = TestDataUtil.createUserEntityA();
+        AccountEntity accountEntity = TestDataUtil.createAccountEntityA(userEntity);
+        AccountDto accountDto = modelMapper.map(accountEntity, AccountDto.class);
+        String accountJson = objectMapper.writeValueAsString(accountDto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/create-account")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(accountJson))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        // Use AssertJ since this response body does not contain transaction.
+        Assertions.assertEquals(1, transactionRepository.count());
+    }
+
+
     //Read tests
     @Test
     public void testThatGetAccountByIdSuccessfullyReturnsHttpStatusOk() throws Exception {
@@ -189,6 +206,54 @@ public class AcccountControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
+
+    @Test
+    public void testThatListAccountsSuccessfullyReturnsAllAccounts() throws Exception {
+
+        UserEntity testUser = TestDataUtil.createUserEntityA();
+
+        UserEntity savedUser = userService.save(testUser);
+
+        AccountEntity testAccount = TestDataUtil.createAccountEntityA(savedUser);
+
+        AccountEntity savedAccount = accountService.save(testAccount); // Save account
+
+        AccountDto accountDto = modelMapper.map(savedAccount, AccountDto.class);
+
+        String accountJson = objectMapper.writeValueAsString(accountDto);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/accounts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(accountJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].balance").value(savedAccount.getBalance().doubleValue()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].accountNumber").value(savedAccount.getAccountNumber().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].user.id").value(savedUser.getId()));
+    }
+
+    @Test
+    public void testThatDeleteAccountSuccessfullyReturnsHttpStatusNoContent() throws Exception {
+
+        UserEntity testUser = TestDataUtil.createUserEntityA();
+        UserEntity savedUser = userService.save(testUser);
+        AccountEntity testAccount = TestDataUtil.createAccountEntityA(savedUser);
+        AccountEntity savedAccount = accountService.save(testAccount);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/accounts/" + savedAccount.getAccountNumber().toString()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    public void testThatDeleteAccountSuccessfullyLogsAccountClosingInTransactionDataBase() throws Exception {
+        UserEntity testUser = TestDataUtil.createUserEntityA();
+        UserEntity savedUser = userService.save(testUser);
+        AccountEntity testAccount = TestDataUtil.createAccountEntityA(savedUser);
+        AccountEntity savedAccount = accountService.save(testAccount);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/accounts/" + savedAccount.getAccountNumber().toString()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        // We are checking if it has been logged. Checking if it has been logged correctly may cause instability of test case.
+        Assertions.assertEquals(1, transactionRepository.count());
+    }
+
 
 
 }

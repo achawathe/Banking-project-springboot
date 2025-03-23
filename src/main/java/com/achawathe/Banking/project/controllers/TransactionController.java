@@ -110,8 +110,8 @@ public class TransactionController {
     public ResponseEntity<?> transferTransaction(@PathVariable String account_id1, @PathVariable String account_id2, @RequestBody double amountIn){
         BigDecimal amount = new BigDecimal(amountIn);
 
-        Optional<AccountEntity> accountTo = accountService.findByAccountNumber(UUID.fromString(account_id1));
-        Optional<AccountEntity> accountFrom = accountService.findByAccountNumber(UUID.fromString(account_id2));
+        Optional<AccountEntity> accountTo = accountService.findByAccountNumber(UUID.fromString(account_id2));
+        Optional<AccountEntity> accountFrom = accountService.findByAccountNumber(UUID.fromString(account_id1));
         TransactionEntity transaction = new TransactionEntity();
         transaction.setTransactionType(TransactionEntity.TransactionType.TRANSFER);
         transaction.setAccountFrom(accountFrom.orElse(null));
@@ -122,7 +122,7 @@ public class TransactionController {
             accountFrom.get().setBalance(accountFrom.get().getBalance().subtract(amount));
             accountTo.get().setBalance(accountTo.get().getBalance().add(amount));
             transactionService.save(transaction);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(transactionMapper.mapTo(transaction),HttpStatus.OK);
         }
         return new ResponseEntity<>("Transaction given was not valid.",HttpStatus.BAD_REQUEST);
     }

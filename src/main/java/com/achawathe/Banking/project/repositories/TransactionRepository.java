@@ -25,5 +25,6 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     Iterable<TransactionEntity> findAllByTransactionTypeAndUser(TransactionEntity.TransactionType transactionType, UserEntity user);
 
+    UserEntity user(UserEntity user);
 }
 
