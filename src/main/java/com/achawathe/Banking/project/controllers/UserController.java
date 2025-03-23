@@ -4,6 +4,7 @@ import com.achawathe.Banking.project.domain.dto.UserDto;
 import com.achawathe.Banking.project.domain.entities.UserEntity;
 import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class UserController {
 
 
     //list users
+    @Tag(name = "get", description = "GET method to get all users")
     @GetMapping("/users")
     public List<UserDto> getAllUsers(){
         List<UserEntity> users = userService.getUsers();
@@ -37,6 +39,7 @@ public class UserController {
     }
 
     //get user by id
+    @Tag(name = "get", description = "GET method to get user by ID")
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
         if (userService.userExists(id)) {
@@ -56,6 +59,7 @@ public class UserController {
     }
 
     //delete a user
+    @Tag(name = "delete", description = "DELETE method to remove user")
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         Optional<UserEntity> userEntity = userService.getUser(id);
@@ -73,6 +77,7 @@ public class UserController {
     }
 
     //partial or full update user
+    @Tag(name = "patch", description = "PATCH method to update user")
     @PatchMapping( value = "/user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         UserEntity userEntity = userMapper.mapFrom(userDto);
@@ -88,6 +93,7 @@ public class UserController {
 
 
     //create user
+    @Tag(name = "post", description = "POST method to create a user")
     @PostMapping(value="/create-user")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         UserEntity userEntity = userMapper.mapFrom(userDto);

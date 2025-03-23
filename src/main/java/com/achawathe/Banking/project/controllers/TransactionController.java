@@ -11,6 +11,7 @@ import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.AccountService;
 import com.achawathe.Banking.project.services.TransactionService;
 import com.achawathe.Banking.project.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,8 @@ public class TransactionController {
                 .collect(Collectors.toList());
     }
 
+
+    @Tag(name = "get", description = "GET method to get transactions by Transaction ID")
     @GetMapping("/transactions/{id}")
     public ResponseEntity<?> getTransaction(@PathVariable String id) {
         Optional<TransactionEntity> transaction;
@@ -62,7 +65,7 @@ public class TransactionController {
         }
         return new ResponseEntity<>("Transaction Does Not Exist",HttpStatus.NOT_FOUND);
     }
-
+    @Tag(name = "get", description = "GET method to get transactions by User ID")
     @GetMapping(value = "/transactions/user/{user_id}")
     public ResponseEntity<?> getTransactionByUserId(@PathVariable String user_id){
         Optional<UserEntity> user;
@@ -81,6 +84,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionslist.stream().map(transactionMapper::mapTo).collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    @Tag(name = "get", description = "GET method to get transactions by Account Number")
     @GetMapping(value = "/transactions/account/{account_id}")
     public ResponseEntity<?> getTransactionByAccountId(@PathVariable UUID account_id){
         Optional<AccountEntity> account;
@@ -94,6 +98,8 @@ public class TransactionController {
         return new ResponseEntity<>(transactionEntities.stream().map(transactionMapper::mapTo).collect(Collectors.toList()), HttpStatus.OK);
     }
 
+
+    @Tag(name = "get", description = "GET method to get transactions from and account to an account")
     @GetMapping(value = "/transactions/accToAndFrom/{account_id1}/{account_id2}")
     public ResponseEntity<?> getTransactionsByAccountId1AndAccountId2(@PathVariable UUID account_id1, @PathVariable UUID account_id2){
         Optional<AccountEntity> accountTo = accountService.findByAccountNumber(account_id1);
@@ -106,6 +112,7 @@ public class TransactionController {
     }
 
     //Transaction between accounts with same user
+    @Tag(name = "put", description = "PUT method to transfer between accounts")
     @PutMapping(value = "/transaction/transfer/{account_id1}_to_{account_id2}")
     public ResponseEntity<?> transferTransaction(@PathVariable String account_id1, @PathVariable String account_id2, @RequestBody double amountIn){
         BigDecimal amount = new BigDecimal(amountIn);
@@ -128,6 +135,7 @@ public class TransactionController {
     }
 
     //Withdraw
+    @Tag(name = "put", description = "PUT method to withdraw from an account")
     @PutMapping(value = "/transaction/withdraw/{account_id}")
     public ResponseEntity<?> withdrawTransaction(@PathVariable UUID account_id, @RequestBody BigDecimal amount){
         Optional<AccountEntity> account = accountService.findByAccountNumber(account_id);
@@ -146,6 +154,7 @@ public class TransactionController {
     }
 
     //Deposit
+    @Tag(name = "put", description = "PUT method to deposit into an account")
     @PutMapping(value = "/transaction/deposit/{account_id}")
     public ResponseEntity<?> depositTransaction(@PathVariable UUID account_id, @RequestBody BigDecimal amount){
         Optional<AccountEntity> account = accountService.findByAccountNumber(account_id);

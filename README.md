@@ -60,14 +60,17 @@ ___
 ![img_14.png](img_14.png)
 
 9. Run the following commands in this exact order to compile it yourself:
-   1. `./mvnw clean test`  (OPTIONAL)
-      1. If this does not say `Build Success` on your computer, then you have not configured the application properly. Repeat steps 4-7 again, (or 1-7 if you deem it necessary).
-      2. This is to simply check if you have set up your environment correctly. It runs the unit tests to check for this. It is not required, since the next test will check as well.
-   2. `./mvnw clean package -Dmaven.test.skip`
+   
+   1. `./mvnw clean install -Dmaven.test.skip`
+      1. This will install all the necessary packages for your machine.
+   2. `./mvnw clean test`  (OPTIONAL)
+       1. If this does not say `Build Success` on your computer, then you have not configured the application properly. Repeat steps 4-7 again, (or 1-7 if you deem it necessary).
+       2. This is to simply check if you have set up your environment correctly. It runs the unit tests to check for this. It is not required, since the next test will check as well.
+   3. `./mvnw clean package -Dmaven.test.skip`
       1. This will create a `.jar` file in your `target` folder
-   3. `cd target`
+   4. `cd target`
       1. This will make the terminal's working folder the `target` folder
-   4. `java -jar Banking-project-0.0.1-SNAPSHOT.jar`
+   5. `java -jar Banking-project-0.0.1-SNAPSHOT.jar`
       1. This will run the compiled jar file.
 10. Download and install Postman from https://www.postman.com/downloads/.
 11. I have set up some tests of the main functionality of the application in the `Banking App.postman_collection.json` file
@@ -135,6 +138,13 @@ ___
 ![img_30.png](img_30.png)
 
 28. There is far more to do here. If you wish to test further, use the endpoints defined in `src/main/com.achawathe.Banking.project/controllers` to make your own requests and test endpoints!
+29. I have also added SwaggerUI to see the endpoints and make requests to them in a user-friendly format.
+30. To access, run the server and navigate to: http://localhost:8080/swagger-ui/index.html#/. It should look like this:
+
+![img_11.png](img_11.png)
+
+31. You can also test from here:
+![img_12.png](img_12.png)
 ---
 ## Assumptions and Requirements
 General Assumptions:

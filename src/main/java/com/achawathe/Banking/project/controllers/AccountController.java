@@ -7,6 +7,7 @@ import com.achawathe.Banking.project.domain.entities.UserEntity;
 import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.AccountService;
 import com.achawathe.Banking.project.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class AccountController {
     }
 
     //create account
+    @Tag(name = "post", description = "POST method to create Account")
     @PostMapping(value = "/create-account")
     public ResponseEntity<?> createAccount(@RequestBody AccountDto accountDto) {
 
@@ -74,6 +76,7 @@ public class AccountController {
     }
 
     //get all accounts assigned to every user
+    @Tag(name = "get", description = "GET method to get all accounts")
     @GetMapping(value = "/accounts")
     public ResponseEntity<List<AccountDto>> getAccounts() {
         List<AccountEntity> accounts = accountService.getAllAccounts();
@@ -84,6 +87,7 @@ public class AccountController {
     }
 
     //get all accounts owned by a single user
+    @Tag(name = "get", description = "GET method to get account by User ID")
     @GetMapping(value = "/accounts/user/{id}")
     public ResponseEntity<?> getAccounts(@PathVariable Long id) {
         if(userService.userExists(id)) {
@@ -99,6 +103,7 @@ public class AccountController {
     }
 
     //get an account by account number
+    @Tag(name = "get", description = "GET method to get account by Account Number")
     @GetMapping(value = "/accounts/{accountNumber}")
     public ResponseEntity<?> getAccount(@PathVariable String accountNumber) {
          UUID accountUUID = UUID.fromString(accountNumber);
@@ -113,6 +118,7 @@ public class AccountController {
 
 
     // close Account
+    @Tag(name = "delete", description = "DELETE method to close account by account number")
     @DeleteMapping(value = "/accounts/{accountNumber}")
     public ResponseEntity<String> deleteAccount(@PathVariable UUID accountNumber) {
         if(accountService.accountExists(accountNumber)) {
