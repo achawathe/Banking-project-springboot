@@ -52,7 +52,7 @@ public class UserController {
 
             return new ResponseEntity<>(userMapper.mapTo(userEntity.get()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("User does not exist in database", HttpStatus.NOT_FOUND);
     }
 
     //delete a user
@@ -66,7 +66,7 @@ public class UserController {
         UserEntity user = userEntity.get();
         if (userService.userExists(user.getId())) {
             userService.deleteUser(user);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("User has been successfully deleted", HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>("User Does Not Exist",HttpStatus.NOT_FOUND);
@@ -110,8 +110,6 @@ public class UserController {
 
         return new ResponseEntity<>(userMapper.mapTo(savedUser), HttpStatus.CREATED);
     }
-
-
 
 
 }

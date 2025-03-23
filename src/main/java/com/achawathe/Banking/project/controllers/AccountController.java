@@ -48,9 +48,12 @@ public class AccountController {
         }
 
         UserEntity user = accountEntity.getUser();
-        if (user.getId() == null) {
+        if (user.getId() == null && ! userService.userExists(accountEntity.getUser().getName())) {
             user = userService.save(user);
             accountEntity.setUser(user);
+        } else if (userService.userExists(accountEntity.getUser().getName())) {
+            accountEntity.setUser(userService.getUser(accountEntity.getUser().getName()).get());
+            user = userService.getUser(accountEntity.getUser().getName()).get();
         }
 
         // **Save the account before creating transactions**
@@ -116,9 +119,12 @@ public class AccountController {
             AccountEntity accountEntity = accountService.findByAccountNumber(accountNumber).orElseThrow();
 
             UserEntity user = accountEntity.getUser();
-            if (user.getId() == null) {
+            if (user.getId() == null && ! userService.userExists(accountEntity.getUser().getName())) {
                 user = userService.save(user);
                 accountEntity.setUser(user);
+            } else if (userService.userExists(accountEntity.getUser().getName())) {
+                accountEntity.setUser(userService.getUser(accountEntity.getUser().getName()).get());
+                user = userService.getUser(accountEntity.getUser().getName()).get();
             }
 
             // **Save the account before creating transactions**

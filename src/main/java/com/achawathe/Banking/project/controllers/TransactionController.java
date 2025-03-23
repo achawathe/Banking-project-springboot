@@ -63,7 +63,7 @@ public class TransactionController {
         return new ResponseEntity<>("Transaction Does Not Exist",HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/transactions/{user_id}")
+    @GetMapping(value = "/transactions/user/{user_id}")
     public ResponseEntity<?> getTransactionByUserId(@PathVariable String user_id){
         Optional<UserEntity> user;
         user = userService.getUser(user_id);
@@ -81,7 +81,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionslist.stream().map(transactionMapper::mapTo).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/transactions/{account_id}")
+    @GetMapping(value = "/transactions/account/{account_id}")
     public ResponseEntity<?> getTransactionByAccountId(@PathVariable UUID account_id){
         Optional<AccountEntity> account;
         account = accountService.findByAccountNumber(account_id);
@@ -94,7 +94,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionEntities.stream().map(transactionMapper::mapTo).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/transactions/{account_id1}/{account_id2}")
+    @GetMapping(value = "/transactions/accToAndFrom/{account_id1}/{account_id2}")
     public ResponseEntity<?> getTransactionsByAccountId1AndAccountId2(@PathVariable UUID account_id1, @PathVariable UUID account_id2){
         Optional<AccountEntity> accountTo = accountService.findByAccountNumber(account_id1);
         Optional<AccountEntity> accountFrom = accountService.findByAccountNumber(account_id2);
