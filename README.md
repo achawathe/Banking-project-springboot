@@ -61,7 +61,7 @@ ___
 
 9. (Option 1) Run the following commands in this exact order if you wish to compile it yourself:
    1. `./mvnw clean test`  (OPTIONAL)
-      1. If this does not say `Build Success` on your computer, then you have not configured the application properly. Repeat steps 4-7 again, (or 1-7 if you deem in necessary).
+      1. If this does not say `Build Success` on your computer, then you have not configured the application properly. Repeat steps 4-7 again, (or 1-7 if you deem it necessary).
       2. This is to simply check if you have set up your environment correctly. It runs the unit tests to check for this. It is not required, since the next test will check as well.
    2. `./mvnw clean package -Dmaven.test.skip`
       1. This will create a `.jar` file in your `target` folder
@@ -92,7 +92,7 @@ ___
 
 ![img_10.png](img_10.png)
 
-17. You can get a user by an ID (This is using the iID returned from the user that you previously created):
+17. You can get a user by an ID (This is using the ID returned from the user that you previously created):
 
 ![img_15.png](img_15.png)
 
@@ -107,13 +107,15 @@ ___
 
 ![img_19.png](img_19.png)
 
-21. In the case of an invalid transaction the following will occur:
+21. In the case of an invalid account given, the following will occur:
 
 ![img_20.png](img_20.png)
 22. You can provide a unique name for the user, no id and a valid balance, and a new account linked to the user with the same name will be created (see assumptions for why):
 
 ![img_22.png](img_22.png)
-    (ID is different because I switched to Postgres for the next demonstration)
+
+(ID is different because I switched to Postgres for the next demonstration)
+
 23. When opening an account, it will get logged in the transaction database as an opening. It will include account to, account from and the amount (opening initial balance), as well as Ids that reference the correct user (see assumptions) and the correct accounts as well:
 
 ![img_24.png](img_24.png)
