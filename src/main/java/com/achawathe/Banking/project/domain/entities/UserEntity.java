@@ -1,5 +1,6 @@
 package com.achawathe.Banking.project.domain.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,6 @@ public class UserEntity {
     @SequenceGenerator(name = "user_seq", allocationSize = 1)
     private Long id;
 
-
+    @Schema(defaultValue = "name")
     private String name;
 }

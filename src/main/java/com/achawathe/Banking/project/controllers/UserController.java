@@ -4,7 +4,9 @@ import com.achawathe.Banking.project.domain.dto.UserDto;
 import com.achawathe.Banking.project.domain.entities.UserEntity;
 import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.UserService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -95,6 +97,7 @@ public class UserController {
     //create user
     @Tag(name = "post", description = "POST method to create a user")
     @PostMapping(value="/create-user")
+    @Schema(implementation = UserDto.class)
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         UserEntity userEntity = userMapper.mapFrom(userDto);
 

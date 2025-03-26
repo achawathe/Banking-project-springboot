@@ -3,6 +3,7 @@ package com.achawathe.Banking.project.domain.dto;
 
 import com.achawathe.Banking.project.domain.entities.AccountEntity;
 import com.achawathe.Banking.project.domain.entities.TransactionEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

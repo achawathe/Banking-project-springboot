@@ -145,6 +145,10 @@ ___
 
 31. You can also test from here:
 ![img_12.png](img_12.png)
+32. NOTE: In the post endpoints of the documentation, please do not put an ID when creating a User and do not provide an account number nor an ID for the Account post. IDs and account numbers are used internally and the program handles user and account matching in its endpoint via the user's name (See assumptions for details).
+
+Sample post operation:
+![img_16.png](img_16.png)
 ---
 ## Assumptions and Requirements
 General Assumptions:

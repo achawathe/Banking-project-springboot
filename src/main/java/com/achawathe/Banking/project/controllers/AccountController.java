@@ -7,6 +7,7 @@ import com.achawathe.Banking.project.domain.entities.UserEntity;
 import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.AccountService;
 import com.achawathe.Banking.project.services.UserService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class AccountController {
     //create account
     @Tag(name = "post", description = "POST method to create Account")
     @PostMapping(value = "/create-account")
+    @Schema(implementation = AccountDto.class)
     public ResponseEntity<?> createAccount(@RequestBody AccountDto accountDto) {
 
         AccountEntity accountEntity = accountMapper.mapFrom(accountDto);

@@ -69,7 +69,8 @@ public class TransactionController {
     @GetMapping(value = "/transactions/user/{user_id}")
     public ResponseEntity<?> getTransactionByUserId(@PathVariable String user_id){
         Optional<UserEntity> user;
-        user = userService.getUser(user_id);
+        Long id = Long.parseLong(user_id);
+        user = userService.getUser(id);
         //assume no user exists with null id
         if(user.isEmpty()){
             return new ResponseEntity<>("User is empty",HttpStatus.BAD_REQUEST);
@@ -144,6 +145,7 @@ public class TransactionController {
         transaction.setAccountTo(account.get());
         transaction.setAmount(amount);
         transaction.setUser(account.get().getUser());
+        transaction.setTransactionType(TransactionEntity.TransactionType.WITHDRAWAL);
         if(transactionService.validTransaction(transaction)){
             account.get().setBalance(account.get().getBalance().subtract(amount));
             TransactionEntity savedTransaction = transactionService.save(transaction);
@@ -163,6 +165,7 @@ public class TransactionController {
         transaction.setAccountTo(account.get());
         transaction.setAmount(amount);
         transaction.setUser(account.get().getUser());
+        transaction.setTransactionType(TransactionEntity.TransactionType.DEPOSIT);
         if(transactionService.validTransaction(transaction)){
             account.get().setBalance(account.get().getBalance().add(amount));
             TransactionEntity savedTransaction = transactionService.save(transaction);
