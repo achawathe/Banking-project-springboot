@@ -3,6 +3,8 @@ package com.achawathe.Banking.project.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -30,9 +32,6 @@ public class TransactionEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false) // Fixed naming
     private UserEntity user;
-
-//    @Version
-//    private Integer version;
 
     private BigDecimal amount;
 

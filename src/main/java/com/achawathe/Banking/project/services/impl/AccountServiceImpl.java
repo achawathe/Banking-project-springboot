@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Optional<AccountEntity> findByAccountNumber(UUID accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber);
+        return accountRepository.findByAccountNumberAndIsDeletedFalse(accountNumber);
     }
 
     @Override
@@ -37,7 +37,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void delete(UUID accountNumber) {
-        accountRepository.deleteByAccountNumber(accountNumber);
+        Optional<AccountEntity> account= accountRepository.findByAccountNumberAndIsDeletedFalse(accountNumber);
+        account.orElseThrow().setDeleted(true);
+        accountRepository.save(account.get());
     }
 
     @Override
@@ -47,12 +49,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountEntity> getAccountByUser(UserEntity user) {
-        return StreamSupport.stream(accountRepository.findAllByUser(user).spliterator(),false).collect(Collectors.toList());
+        return StreamSupport.stream(accountRepository.findAllByUserAndIsDeletedFalse(user).spliterator(),false).collect(Collectors.toList());
     }
 
     @Override
     public boolean accountExists(UUID accountNumber) {
-        return accountRepository.existsAccountEntityByAccountNumber(accountNumber);
+        return accountRepository.existsAccountEntityByAccountNumberAndIsDeletedFalse(accountNumber);
     }
 
 

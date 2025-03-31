@@ -1,5 +1,6 @@
 package com.achawathe.Banking.project.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserDto {
+    @Schema(hidden = true)
     private Long id;
 
-    @Schema(defaultValue = "Name")
+    @Schema(defaultValue = "name")
     private String name;
+
 }

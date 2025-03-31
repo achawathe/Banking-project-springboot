@@ -2,7 +2,6 @@ package com.achawathe.Banking.project.repositories;
 
 import com.achawathe.Banking.project.TestDataUtil;
 import com.achawathe.Banking.project.domain.entities.AccountEntity;
-import com.achawathe.Banking.project.domain.entities.TransactionEntity;
 import com.achawathe.Banking.project.domain.entities.UserEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,7 +124,7 @@ public class AccountEntityRepositoryIntegrationTests {
         assertThat(savedAccount.getUser()).isEqualTo(accountEntity.getUser());
         assertThat(savedAccount.getBalance()).isEqualTo(accountEntity.getBalance());
         accountRepository.delete(accountEntity);
-        assertThat(accountRepository.existsAccountEntityByAccountNumber(savedAccount.getAccountNumber())).isFalse();
+        assertThat(accountRepository.existsAccountEntityByAccountNumberAndIsDeletedFalse(savedAccount.getAccountNumber())).isFalse();
     }
 
 

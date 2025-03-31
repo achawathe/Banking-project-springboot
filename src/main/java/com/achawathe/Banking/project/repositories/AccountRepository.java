@@ -16,9 +16,10 @@ public interface AccountRepository extends JpaRepository<AccountEntity,UUID>,
 
     void deleteByAccountNumber(UUID accountNumber);
 
-    Optional<AccountEntity> findByAccountNumber(UUID accountNumber);
+    boolean existsAccountEntityByAccountNumberAndIsDeletedFalse(UUID accountNumber);
 
-    boolean existsAccountEntityByAccountNumber(UUID accountNumber);
 
-    AccountEntity getAccountEntityByAccountNumber(UUID accountNumber);
+    Iterable<AccountEntity> findAllByUserAndIsDeletedFalse(UserEntity user);
+
+    Optional<AccountEntity> findByAccountNumberAndIsDeletedFalse(UUID accountNumber);
 }

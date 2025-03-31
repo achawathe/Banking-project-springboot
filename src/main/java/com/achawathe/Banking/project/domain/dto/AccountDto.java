@@ -13,13 +13,18 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class AccountDto {
+    @Schema(hidden = true)
     private Long id;
 
     @Schema(defaultValue = "{name : \"Name\"}")
     private UserDto user;
 
+    @Schema(hidden = true)
     private String accountNumber;
 
     @Schema(defaultValue = "0")
     private BigDecimal balance;
+
+    @Schema(defaultValue = "false", hidden = true)
+    private boolean isDeleted = false;
 }

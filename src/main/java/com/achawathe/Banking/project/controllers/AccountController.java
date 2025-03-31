@@ -127,6 +127,7 @@ public class AccountController {
             AccountEntity accountEntity = accountService.findByAccountNumber(accountNumber).orElseThrow();
 
             UserEntity user = accountEntity.getUser();
+
             if (user.getId() == null && ! userService.userExists(accountEntity.getUser().getName())) {
                 user = userService.save(user);
                 accountEntity.setUser(user);
@@ -135,19 +136,20 @@ public class AccountController {
                 user = userService.getUser(accountEntity.getUser().getName()).get();
             }
 
-            // **Save the account before creating transactions**
             accountEntity = accountService.save(accountEntity);
 
             // **Create and persist the transaction AFTER the account is persisted**
             TransactionEntity transactionEntity = TransactionEntity.builder()
                     .accountFrom(accountEntity)
                     .accountTo(accountEntity)
-                    .transactionType(TransactionEntity.TransactionType.OPENING)
+                    .transactionType(TransactionEntity.TransactionType.CLOSING)
                     .amount(accountEntity.getBalance())
                     .user(user)
                     .build();
 
             transactionService.save(transactionEntity);
+
+            accountService.delete(accountNumber);
 
             return new ResponseEntity<>("Account Deleted Successfully",HttpStatus.NO_CONTENT);
         }

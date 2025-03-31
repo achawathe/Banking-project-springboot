@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UserMapperImpl implements Mapper<UserEntity, UserDto> {
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public UserMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;

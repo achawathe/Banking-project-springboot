@@ -16,17 +16,22 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class TransactionDto {
-
+    @Schema(hidden = true)
     private Long id;
 
+    @Schema(defaultValue = "acc1")
     private AccountDto accountFrom;
 
+    @Schema(defaultValue = "acc2")
     private AccountDto accountTo;
 
+    @Schema(defaultValue = "user_name")
     private UserDto user;
 
+    @Schema(defaultValue = "0")
     private BigDecimal amount;
 
+    @Schema(defaultValue = "TransactionType.TRANSFER")
     private TransactionType transactionType;
 
     private enum TransactionType{DEPOSIT, WITHDRAWAL, TRANSFER, OPENING, CLOSING};

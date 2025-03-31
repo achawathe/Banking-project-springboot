@@ -6,7 +6,7 @@ import com.achawathe.Banking.project.mappers.Mapper;
 import com.achawathe.Banking.project.services.UserService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
 
-    private UserService userService;
-    private Mapper<UserEntity, UserDto> userMapper;
+    private final UserService userService;
+    private final Mapper<UserEntity, UserDto> userMapper;
 
     UserController(UserService userService, Mapper<UserEntity, UserDto> userMapper) {
         this.userService = userService;
@@ -99,8 +99,9 @@ public class UserController {
     @PostMapping(value="/create-user")
     @Schema(implementation = UserDto.class)
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
+        System.out.println("Received UserDto: " + userDto);
         UserEntity userEntity = userMapper.mapFrom(userDto);
-
+        System.out.println("Mapped UserEntity: " + userEntity);
         if(userEntity == null || userEntity.getName() == null) {
             return new ResponseEntity<>("User Entity or Response Entity is Null",HttpStatus.BAD_REQUEST);
         }

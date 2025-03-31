@@ -16,7 +16,7 @@ import java.util.UUID;
 @Table(name = "account")
 public class AccountEntity {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @Schema(defaultValue = "{name : \"Name\"}")
     private UserEntity user;
@@ -24,8 +24,13 @@ public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Schema(hidden = true)
     private UUID accountNumber;
 
     @Schema(defaultValue = "0")
     private BigDecimal balance;
+
+    @Schema(hidden = true)
+    private boolean isDeleted = false;
+
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AccountMapperImpl implements Mapper<AccountEntity, AccountDto> {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public AccountMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
