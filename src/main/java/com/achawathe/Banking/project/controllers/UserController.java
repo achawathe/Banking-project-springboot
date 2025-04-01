@@ -61,22 +61,22 @@ public class UserController {
     }
 
     //delete a user
-    @Tag(name = "delete", description = "DELETE method to remove user")
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        Optional<UserEntity> userEntity = userService.getUser(id);
-        if (userEntity.isEmpty() || userEntity.get().getId() == null) {
-            return new ResponseEntity<>("User found, but is either empty, or has no ID.",HttpStatus.NOT_FOUND);
-        }
-
-        UserEntity user = userEntity.get();
-        if (userService.userExists(user.getId())) {
-            userService.deleteUser(user);
-            return new ResponseEntity<>("User has been successfully deleted", HttpStatus.NO_CONTENT);
-        }
-
-        return new ResponseEntity<>("User Does Not Exist",HttpStatus.NOT_FOUND);
-    }
+//    @Tag(name = "delete", description = "DELETE method to remove user")
+//    @DeleteMapping("/user/{id}")
+//    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+//        Optional<UserEntity> userEntity = userService.getUser(id);
+//        if (userEntity.isEmpty() || userEntity.get().getId() == null) {
+//            return new ResponseEntity<>("User found, but is either empty, or has no ID.",HttpStatus.NOT_FOUND);
+//        }
+//
+//        UserEntity user = userEntity.get();
+//        if (userService.userExists(user.getId())) {
+//            userService.deleteUser(user);
+//            return new ResponseEntity<>("User has been successfully deleted", HttpStatus.NO_CONTENT);
+//        }
+//
+//        return new ResponseEntity<>("User Does Not Exist",HttpStatus.NOT_FOUND);
+//    }
 
     //partial or full update user
     @Tag(name = "patch", description = "PATCH method to update user")

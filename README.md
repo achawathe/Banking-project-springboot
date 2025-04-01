@@ -4,7 +4,7 @@
 A Banking Project Application made with the Java SpringBoot Framework.
 ___
 ## Features:
-- User Creation, Updating, Listing, and Deletion
+- User Creation, Updating and Listing
 - Account Creation (opening), Updating, Listing, and Deletion (closing)
     - Account Linking to a Single User (Many to One Unidirectional)
     - Logging of account opening (creation), as well as closing (deletion) in the Transactions database

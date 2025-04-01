@@ -248,28 +248,28 @@ public class UserControllerTests {
     }
 
     //Delete Users Tests
-    @Test
-    public void testDeleteUserSuccessfullyReturnsHttpStatusOk() throws Exception {
-        UserEntity testUser = TestDataUtil.createUserEntityA();
-        UserEntity savedUser = userService.save(testUser);
-        String userJson = objectMapper.writeValueAsString(testUser);
-        mockMvc.perform(
-                MockMvcRequestBuilders.delete("/user/" + savedUser.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson)
-        ).andExpect(MockMvcResultMatchers.status().isNoContent()); //return of controller
-    }
-
-
-
-    @Test
-    public void testDeleteUserWithNullBodyReturnsBadRequest() throws Exception {
-        mockMvc.perform(
-                MockMvcRequestBuilders.delete("/user/" + TestDataUtil.createUserEntityA().getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("")
-        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
+//    @Test
+//    public void testDeleteUserSuccessfullyReturnsHttpStatusOk() throws Exception {
+//        UserEntity testUser = TestDataUtil.createUserEntityA();
+//        UserEntity savedUser = userService.save(testUser);
+//        String userJson = objectMapper.writeValueAsString(testUser);
+//        mockMvc.perform(
+//                MockMvcRequestBuilders.delete("/user/" + savedUser.getId())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(userJson)
+//        ).andExpect(MockMvcResultMatchers.status().isNoContent()); //return of controller
+//    }
+//
+//
+//
+//    @Test
+//    public void testDeleteUserWithNullBodyReturnsBadRequest() throws Exception {
+//        mockMvc.perform(
+//                MockMvcRequestBuilders.delete("/user/" + TestDataUtil.createUserEntityA().getId())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("")
+//        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
+//    }
 
 
 
